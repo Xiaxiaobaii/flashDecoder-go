@@ -67,6 +67,10 @@ type Flashinfo struct {
 
 	EccEnable bool
 
+	// SpecTek specific: when true, indicates the device uses half-page addressing/size behavior.
+	// Upstream FlashDetector exposes this as extra info (halfPageAndSize).
+	HalfPageAndSize bool
+
 	Wafer bool
 }
 

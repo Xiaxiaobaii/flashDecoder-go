@@ -47,25 +47,25 @@ func (s SpecTekDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 
 	if info.Capacity == "" {
 		den := utils.RetShiftChars(&partNumber, 2)
-		info.Capacity  = utils.GetOrDefault(den, Spec_Legacy_Density, "")
+		info.Capacity = utils.GetOrDefault(den, Spec_Legacy_Density, "")
 		if info.Capacity == "" {
 			info.Capacity = utils.GetOrDefault(den, Spec_NEWER_DENSITY, "")
 			if info.Capacity != "" {
 				grade = den[1:]
-			} 
+			}
 		}
-	}else {
+	} else {
 		grade = utils.RetShiftChars(&partNumber, 1)
 	}
 
 	if grade != "" {
 		info.CapGrade = utils.GetOrDefault(grade, map[string]string{
-				"1": "94-100%",
-				"9": "90-100%",
-				"6": "50-90%",
-				"5": "40-60%",
-				"0": "",
-				"A": "",
+			"1": "94-100%",
+			"9": "90-100%",
+			"6": "50-90%",
+			"5": "40-60%",
+			"0": "",
+			"A": "",
 		}, "")
 	}
 
@@ -75,17 +75,21 @@ func (s SpecTekDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 		info.EccEnable = true
 	}
 
-	// TODO halfPageAndSize
+	// Upstream FlashDetector exposes "halfPageAndSize" in extra info.
+	// In this Go port we store it directly on Flashinfo for easier consumption.
+	if config == "M" {
+		info.HalfPageAndSize = true
+	}
 
 	info.DeviceWidth = utils.GetOrDefault(config, map[string]int{
-				"G": 8,
-				"L": 16,
-				"H": 1,
-				"M": 8,
-				"J": 4,
-				"P": 16,
-				"K": 8,
-				"N": 0,
+		"G": 8,
+		"L": 16,
+		"H": 1,
+		"M": 8,
+		"J": 4,
+		"P": 16,
+		"K": 8,
+		"N": 0,
 	}, -1)
 
 	info.Voltage = utils.GetOrDefault(utils.RetShiftChars(&partNumber, 1), map[string]string{
@@ -103,7 +107,7 @@ func (s SpecTekDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 	}, "")
 
 	classif := utils.GetOrDefault(utils.RetShiftChars(&partNumber, 1), map[string][]int{
-		"A": {1, 0, 0, 1},//die, ce, rb, ch
+		"A": {1, 0, 0, 1}, //die, ce, rb, ch
 		"B": {1, 1, 1, 1},
 		"D": {2, 1, 1, 1},
 		"E": {2, 2, 2, 2},
@@ -131,7 +135,7 @@ func (s SpecTekDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 		"3": {8, 4, -1, 2},
 		"4": {4, 4, -1, 1},
 		"S": {16, 4, -1, 4},
-	}, []int{0,0,0,0})
+	}, []int{0, 0, 0, 0})
 
 	info.CE = classif[1]
 	info.CH = classif[3]
@@ -154,35 +158,35 @@ func (s SpecTekDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 }
 
 var Spec_Legacy_Density = map[string]string{
-		"1G": "1Gbit",
-		"18": "1.8Gbit",
-		"2G": "2Gbit",
-		"38": "3.8Gbit",
-		"4G": "4Gbit",
-		"78": "7.8Gbit",
-		"8G": "8Gbit",
-		"F8": "15.8Gbit",
-		"HG": "16Gbit",
-		"31": "31Gbit",
-		"32": "32Gbit",
-		"64": "64Gbit",
-		"NX": "128",
-		"NY": "256",
-		"NZ": "512",
+	"1G": "1Gbit",
+	"18": "1.8Gbit",
+	"2G": "2Gbit",
+	"38": "3.8Gbit",
+	"4G": "4Gbit",
+	"78": "7.8Gbit",
+	"8G": "8Gbit",
+	"F8": "15.8Gbit",
+	"HG": "16Gbit",
+	"31": "31Gbit",
+	"32": "32Gbit",
+	"64": "64Gbit",
+	"NX": "128",
+	"NY": "256",
+	"NZ": "512",
 }
 
 var Spec_NEWER_DENSITY = map[string]string{
-		"1": "1Gbit",
-		"2": "4Gbit",
-		"3": "8Gbit",
-		"4": "16Gbit",
-		"5": "32Gbit",
-		"6": "64Gbit",
-		"7": "128Gbit",
-		"8": "256Gbit",
-		"9": "512Gbit",
-		"A": "1Tbit",
-		"B": "2Tbit",
+	"1": "1Gbit",
+	"2": "4Gbit",
+	"3": "8Gbit",
+	"4": "16Gbit",
+	"5": "32Gbit",
+	"6": "64Gbit",
+	"7": "128Gbit",
+	"8": "256Gbit",
+	"9": "512Gbit",
+	"A": "1Tbit",
+	"B": "2Tbit",
 }
 
 func SpecTekDecoderDefault() SpecTekDecoder {
