@@ -18,9 +18,7 @@ type IdDecoder interface {
 	Decode(partNumber string) flashinfo.Flashinfo
 }
 
-var VendorIds = map[string]IdDecoder {
-	
-}
+var VendorIds = map[string]IdDecoder{}
 
 var flashdecoders []Decoder
 
@@ -43,6 +41,9 @@ func init() {
 
 func Decode(partNumber string) (flashinfo.Flashinfo, error) {
 	partNumber = strings.ToUpper(partNumber)
+	if strings.TrimSpace(partNumber) == "" {
+		return flashinfo.Flashinfo{}, errors.New("empty partNumber")
+	}
 	for _, v := range flashdecoders {
 		if v.Check(partNumber) {
 			info := v.Decode(partNumber)
