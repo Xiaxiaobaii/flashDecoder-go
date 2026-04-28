@@ -1,6 +1,8 @@
 # flashDecoder-go
 The Go re-implementation of `iTXTech/FlashDetector` (work in progress).
 
+Chinese version: `README.zh-CN.md`
+
 This repository provides:
 - A Go **library** for decoding flash part numbers (`flashdecoder.Decode(partNumber)`).
 - A small CLI entry in `bin/` as a demo/utility.
