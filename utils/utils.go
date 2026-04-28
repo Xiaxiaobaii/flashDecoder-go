@@ -80,15 +80,16 @@ func InMapkey[T any](needstr string, Map map[string]T) bool {
 }
 
 func IntCellTString(cell int) string {
-	if cell == 1 {
+	switch cell {
+	case 1:
 		return "SLC"
-	} else if cell == 2 {
+	case 2:
 		return "MLC"
-	} else if cell == 3 {
+	case 3:
 		return "TLC"
-	} else if cell == 4 {
+	case 4:
 		return "QLC"
-	}else {
+	default:
 		return ""
 	}
 }

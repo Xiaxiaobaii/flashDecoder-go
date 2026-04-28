@@ -66,6 +66,8 @@ type Flashinfo struct {
 	CapGrade string
 
 	EccEnable bool
+
+	Wafer bool
 }
 
 type NandType string
@@ -76,5 +78,5 @@ const (
 	E2NAND      NandType = "E2NAND"
 	Xpoint_3D   NandType = "3dXPoint"
 	UNKWON_NAND NandType = ""
-	CON NandType = "Con"
+	CON         NandType = "Con"
 )

@@ -5,7 +5,6 @@ import (
 	"flashDecoder/flashs"
 	flashinfo "flashDecoder/info"
 	"flashDecoder/utils"
-	"fmt"
 	"strings"
 )
 
@@ -35,11 +34,11 @@ func init() {
 	flashdecoders = append(flashdecoders, flashs.SpecTekDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.SkHynixDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.YangTzeDecoderDefault())
-	mdb, e := utils.LoadMdb()
-	utils.Mdb = mdb
-	if e != nil {
-		fmt.Println("load mdb error: ", e.Error())
+	mdb, _ := utils.LoadMdb()
+	if mdb.Micron == nil {
+		mdb.Micron = utils.Micron
 	}
+	utils.Mdb = mdb
 }
 
 func Decode(partNumber string) (flashinfo.Flashinfo, error) {

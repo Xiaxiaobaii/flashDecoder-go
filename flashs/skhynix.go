@@ -62,12 +62,14 @@ func (s SkHynixDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 
 	if utils.Inarray(packageMaterial, []string{"R", "P"}) {
 		info.Lead_Free = true
+		if packageMaterial == "R" {
+			info.Halogen_Free = true;
+		}
 	} else if packageMaterial == "L" {
 		info.Lead_Free = false
+	} else if packageMaterial == "A" {
+		info.Wafer = true;
 	}
-
-	// Todo Halogen Free
-	// Todo Wafer
 
 	utils.RetShiftChars(&partNumber, 1)
 

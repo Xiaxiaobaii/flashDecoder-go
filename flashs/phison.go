@@ -16,7 +16,7 @@ var Phison_REBRAND_VENDOR = map[string]string{
 	"D": "Western Digital",
 	"C": "Yangtze",
 	"N": "Intel",
-};
+}
 
 var Phison_PACKAGE = map[string]string{
 	"A": "BGA132",
@@ -28,10 +28,10 @@ var Phison_PACKAGE = map[string]string{
 	"T": "TSOP48",
 	"B": "BGA132 / LGA110",
 	"Y": "BGA56-UFS",
-};
+}
 
 var Phison_CLASSIFICATION = map[string][]int{
-	"1": {1, 1},//ce die
+	"1": {1, 1}, //ce die
 	"3": {1, 2},
 	"5": {2, 2},
 	"6": {2, 4},
@@ -40,7 +40,7 @@ var Phison_CLASSIFICATION = map[string][]int{
 	"A": {4, 16},
 	"B": {8, 8},
 	"C": {8, 16},
-};
+}
 
 var Phison_DENSITY = map[string]string{
 	"7G": "16Bits",
@@ -52,7 +52,7 @@ var Phison_DENSITY = map[string]string{
 	"HG": "512GBits",
 	"IG": "1TBits",
 	"JG": "2TBits",
-};
+}
 
 var Phison_PROCESS_NODE = map[string]map[string][]string{
 	"Kioxia": {
@@ -83,15 +83,15 @@ var Phison_PROCESS_NODE = map[string]map[string][]string{
 	"Yangtze": {
 		"O": {"JGS", "TLC"},
 	},
-};
+}
 
 func PhisonDecoderDefault() PhisonDecoder {
 	return PhisonDecoder{}
 }
 
 func (p PhisonDecoder) Check(partNumber string) bool {
-	if len(partNumber) == 10 && utils.InMapkey(partNumber[0:1], Phison_REBRAND_VENDOR) && 
-	utils.InMapkey(partNumber[1:2], Phison_PACKAGE) {
+	if len(partNumber) == 10 && utils.InMapkey(partNumber[0:1], Phison_REBRAND_VENDOR) &&
+		utils.InMapkey(partNumber[1:2], Phison_PACKAGE) {
 		return true
 	}
 	return false
@@ -102,21 +102,22 @@ func (p PhisonDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 	info.Type = flashinfo.NAND
 
 	info.Vendor = utils.GetOrDefault(utils.RetShiftChars(&partNumber, 1), Phison_REBRAND_VENDOR, "")
-	
+
 	info.Package = utils.GetOrDefault(utils.RetShiftChars(&partNumber, 1), Phison_PACKAGE, "")
-	
+
 	clz := utils.GetOrDefault(utils.RetShiftChars(&partNumber, 1), Phison_CLASSIFICATION, []int{-1, -1})
 	info.CE = clz[0]
 	info.Die = clz[1]
 
 	info.Capacity = utils.GetOrDefault(utils.RetShiftChars(&partNumber, 2), Phison_DENSITY, "")
-	
+
 	utils.RetShiftChars(&partNumber, 3)
 
 	vendor := info.Vendor
-	if vendor == "Micron" {
+	switch vendor {
+	case "Micron":
 		vendor = "Intel"
-	}else if vendor == "Western Digital" {
+	case "Western Digital":
 		vendor = "Kioxia"
 	}
 

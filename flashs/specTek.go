@@ -138,7 +138,7 @@ func (s SpecTekDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 	info.RB = classif[2]
 	info.Die = classif[0]
 
-	// Todo package Func ality Partial Type
+	// Todo package Funcality Partial Type
 	utils.RetShiftChars(&partNumber, 1)
 
 	interFace := utils.RetShiftChars(&partNumber, 1)
