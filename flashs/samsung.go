@@ -59,7 +59,9 @@ func (s SamsungDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 		"W": "2.7V~5.5V, 3.0V~5.5V",
 		"0": "None",
 		"H": "Vcc: 3.3V, VccQ: 1.8V (UNOFFICIAL)", //TODO: Confirm
-		//TODO: J
+		// Upstream FlashDetector also leaves this as TODO; keep a non-empty placeholder
+		// so CLI output is stable and can be improved later once confirmed.
+		"J": "Vcc: 3.3V, VccQ: 1.8V (UNOFFICIAL)",
 	}, "")
 
 	mode := utils.GetOrDefault(utils.RetShiftChars(&partNumber, 1), map[string][]int{
