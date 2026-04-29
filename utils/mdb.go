@@ -41,3 +41,18 @@ func MFpga2Pn(fpgaCode string) string {
 	}
 	return ""
 }
+
+func FindMicronByCode(code string) (string, bool) {
+	part, ok := Mdb.Micron[strings.ToUpper(strings.TrimSpace(code))]
+	return part, ok
+}
+
+func FindSpectekByCode(code string) ([]string, bool) {
+	parts, ok := Mdb.Spectek[strings.ToUpper(strings.TrimSpace(code))]
+	if !ok || len(parts) == 0 {
+		return nil, false
+	}
+	cloned := make([]string, len(parts))
+	copy(cloned, parts)
+	return cloned, true
+}

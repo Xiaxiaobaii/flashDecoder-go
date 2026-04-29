@@ -36,6 +36,8 @@ func init() {
 	flashdecoders = append(flashdecoders, flashs.PhisonDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.SamsungDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.SpecTekDecoderDefault())
+	flashdecoders = append(flashdecoders, flashs.WesternDigitalShortCodeDecoderDefault())
+	flashdecoders = append(flashdecoders, flashs.WesternDigitalDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.SkHynix3DDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.SkHynixLegacyDecoderDefault())
 	flashdecoders = append(flashdecoders, flashs.SkHynixDecoderDefault())

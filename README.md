@@ -1,10 +1,12 @@
 # flashDecoder-go
-The Go re-implementation of `iTXTech/FlashDetector` (work in progress).
+The Go implementation of Flash Detector
 
 Chinese version: `README.zh-CN.md`
 
 This repository provides:
 - A Go **library** for decoding flash part numbers (`flashdecoder.Decode(partNumber)`).
+- A Go **library** for decoding flash IDs (`flashdecoder.DecodeID(idHex)`).
+- FDB helper APIs (`flashdecoder.FindFdb`, `flashdecoder.SearchFdb`, `flashdecoder.GetFdbSummary`).
 - A small CLI entry in `bin/` as a demo/utility.
 
 ## Build & Run
@@ -16,6 +18,9 @@ Run directly:
 ```bash
 go run ./bin --part NW383
 go run ./bin --part NW383 --json
+go run ./bin --id EC-D7-94-7E
+go run ./bin --search NW101 --limit 5
+go run ./bin --summary
 ```
 
 Install the CLI:

@@ -73,3 +73,43 @@ func TestDecode_SkHynix3DPrefix(t *testing.T) {
 		t.Fatalf("expected Toggle=true")
 	}
 }
+
+func TestDecode_WesternDigitalShortCode(t *testing.T) {
+	info, err := Decode("05055-032G")
+	if err != nil {
+		t.Fatalf("expected nil error, got %v", err)
+	}
+	if info.Vendor != "WesternDigital" {
+		t.Fatalf("expected Vendor=WesternDigital, got %q", info.Vendor)
+	}
+	if info.Capacity != "256Gbit" {
+		t.Fatalf("expected Capacity=256Gbit, got %q", info.Capacity)
+	}
+}
+
+func TestDecode_ParityVectorsPN(t *testing.T) {
+	cases := []struct {
+		pn       string
+		vendor   string
+		nandType string
+	}{
+		{pn: "NW383", vendor: "Micron", nandType: "Nand"},
+		{pn: "K9GAG08U0M", vendor: "Samsung", nandType: "Nand"},
+		{pn: "TH58NVG7S0FTA20", vendor: "Kioxia", nandType: "Nand"},
+		{pn: "YMN08TA1B1C0A", vendor: "YangTze", nandType: "Nand"},
+		{pn: "SDTNQCDHE-032G", vendor: "WesternDigital", nandType: "Nand"},
+	}
+
+	for _, tc := range cases {
+		info, err := Decode(tc.pn)
+		if err != nil {
+			t.Fatalf("%s: expected nil error, got %v", tc.pn, err)
+		}
+		if info.Vendor != tc.vendor {
+			t.Fatalf("%s: expected Vendor=%s, got %q", tc.pn, tc.vendor, info.Vendor)
+		}
+		if string(info.Type) != tc.nandType {
+			t.Fatalf("%s: expected Type=%s, got %q", tc.pn, tc.nandType, info.Type)
+		}
+	}
+}

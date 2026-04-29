@@ -4,6 +4,8 @@
 
 本仓库提供：
 - 一个用于**按闪存型号（part number）解码**的 Go **库**：`flashdecoder.Decode(partNumber)`
+- 一个用于**按闪存 ID 解码**的 Go **库**：`flashdecoder.DecodeID(idHex)`
+- FDB 查询相关接口：`flashdecoder.FindFdb`、`flashdecoder.SearchFdb`、`flashdecoder.GetFdbSummary`
 - `bin/` 下的一个小型 **CLI** 入口（用于演示/工具化调用）
 
 ## 构建与运行
@@ -15,6 +17,9 @@
 ```bash
 go run ./bin --part NW383
 go run ./bin --part NW383 --json
+go run ./bin --id EC-D7-94-7E
+go run ./bin --search NW101 --limit 5
+go run ./bin --summary
 ```
 
 安装 CLI：
@@ -58,4 +63,3 @@ func main() {
 - `flashs/`：各厂商/系列的型号解码器
 - `utils/`：工具函数 + `mdb.json` 加载
 - `bin/`：CLI 演示入口
-

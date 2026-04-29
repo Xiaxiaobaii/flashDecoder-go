@@ -31,3 +31,26 @@ func TestDecodeID_InvalidInput(t *testing.T) {
 		t.Fatalf("expected error for invalid input")
 	}
 }
+
+func TestDecodeID_ParityVectors(t *testing.T) {
+	cases := []struct {
+		id     string
+		vendor string
+	}{
+		{id: "2C123456", vendor: "Micron"},
+		{id: "98A1B2C3", vendor: "Kioxia"},
+		{id: "89FFFF00", vendor: "Intel"},
+		{id: "ADF0F1F2", vendor: "SKHynix"},
+		{id: "9B112233", vendor: "Yangtze"},
+	}
+
+	for _, tc := range cases {
+		info, err := DecodeID(tc.id)
+		if err != nil {
+			t.Fatalf("%s: expected nil error, got %v", tc.id, err)
+		}
+		if info.Vendor != tc.vendor {
+			t.Fatalf("%s: expected Vendor=%s, got %q", tc.id, tc.vendor, info.Vendor)
+		}
+	}
+}
