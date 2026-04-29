@@ -145,11 +145,12 @@ func (decoder IntelDecoder) Decode(partNumber string) flashinfo.Flashinfo {
 		"Y": true,
 	}, true)
 
-	if width == "4A" {
+	switch width {
+	case "4A":
 		info.CH = 4
-	} else if width == "2A" {
+	case "2A":
 		info.CH = 2
-	} else {
+	default:
 		info.CH = 1
 	}
 

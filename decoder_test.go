@@ -44,3 +44,32 @@ func TestDecode_EmptyPartNumber(t *testing.T) {
 		t.Fatalf("expected error for empty PN")
 	}
 }
+
+func TestDecode_SkHynixLegacyPrefix(t *testing.T) {
+	info, err := Decode("HY27UF081G2M")
+	if err != nil {
+		t.Fatalf("expected nil error, got %v", err)
+	}
+	if info.Vendor != "SkHynix" {
+		t.Fatalf("expected Vendor=SkHynix, got %q", info.Vendor)
+	}
+	if info.Type != "Nand" {
+		t.Fatalf("expected Type=Nand, got %q", info.Type)
+	}
+}
+
+func TestDecode_SkHynix3DPrefix(t *testing.T) {
+	info, err := Decode("H25QTA82A")
+	if err != nil {
+		t.Fatalf("expected nil error, got %v", err)
+	}
+	if info.Vendor != "SkHynix" {
+		t.Fatalf("expected Vendor=SkHynix, got %q", info.Vendor)
+	}
+	if info.Type != "Nand" {
+		t.Fatalf("expected Type=Nand, got %q", info.Type)
+	}
+	if !info.Toggle {
+		t.Fatalf("expected Toggle=true")
+	}
+}
