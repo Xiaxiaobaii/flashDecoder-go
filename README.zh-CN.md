@@ -1,6 +1,6 @@
 # flashDecoder-go
 
-`flashDecoder-go` 是对 `iTXTech/FlashDetector` 的 Go 语言重写（进行中）。
+`flashDecoder-go` 是 FlashDetector 的 Go 语言实现。
 
 本仓库提供：
 - 一个用于**按闪存型号（part number）解码**的 Go **库**：`flashdecoder.Decode(partNumber)`
