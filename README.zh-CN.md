@@ -47,10 +47,8 @@ import (
 func main() {
 	info, err := flashdecoder.Decode("NW383")
 	if err != nil {
-		// 型号不支持或未匹配到时会返回 error；此时 info 也可能包含部分字段。
 		fmt.Println("decode error:", err)
 	}
-
 	fmt.Println("Vendor:", info.Vendor)
 	fmt.Println("Type:", info.Type)
 	fmt.Println("Capacity:", info.Capacity)
